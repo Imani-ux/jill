@@ -198,7 +198,7 @@ body.finale #aurora{opacity:.9}
 .term-bar i{width:11px;height:11px;border-radius:50%}
 .term-bar .r{background:#ff5f56}.term-bar .y{background:#ffbd2e}.term-bar .g{background:#27c93f}
 .term-bar span{margin-left:8px;color:#6f7c72;font-size:.72rem;letter-spacing:.08em}
-.term-body{background:linear-gradient(180deg,#080b09,#0a0f0c);padding:1.2em 1.3em;min-height:320px;
+.term-body{background:linear-gradient(180deg,#080b09,#0a0f0c);padding:1.2em 1.3em;min-height:170px;
   color:#bfe9c9;line-height:1.7;white-space:pre-wrap;word-break:break-word;text-shadow:0 0 8px rgba(88,214,141,.25)}
 .term-body .ok{color:var(--emerald)}.term-body .err{color:#ff6b6b}.term-body .dim{color:#6f7c72}
 .term-body .cmd{color:var(--gold)}.term-body .cur{color:var(--emerald);animation:caret 1s steps(1) infinite}
@@ -374,8 +374,8 @@ body.finale #aurora{opacity:.9}
 <!-- ============================ STORY ============================ -->
 <main id="story">
 
-  <!-- Forest -->
-  <section class="scene" id="forest">
+  <!-- The gallery — the main event, set in the moonlit forest -->
+  <section class="scene" id="memories">
     <svg id="trees" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <g fill="#050409">
         <path class="tree" d="M120 300 L150 40 L180 300 Z M150 40 L108 140 M150 92 L204 172 M150 152 L96 224"/>
@@ -383,95 +383,38 @@ body.finale #aurora{opacity:.9}
         <path class="tree" d="M1020 300 L1050 58 L1080 300 Z M1050 58 L1008 152 M1050 112 L1114 202"/>
       </g>
     </svg>
-    <div class="dialogue">
-      <p class="line rose reveal">People say monsters don't fall in love…</p>
-      <p class="line soft reveal d2"><em>Then I met you.</em></p>
-      <p class="line rose reveal d3">You're terrifying… in the cutest possible way.</p>
-      <p class="line soft reveal d4">I still don't know if you're my mamaz… or my sleep-paralysis demon.</p>
-      <p class="line rose reveal d5">Either way… I'm staying.</p>
-    </div>
+    <p class="eyebrow reveal">The Evidence</p>
+    <div class="gallery" id="gallery"></div>
+    <p class="gallery-hint reveal">// this album keeps growing.</p>
     <div class="cue">scroll</div>
   </section>
 
-  <!-- Funny horror sticky notes -->
-  <section class="scene" id="funny">
-    <p class="eyebrow reveal">Case File — Subject: Her</p>
-    <div class="notes">
-      <div class="sticky reveal"><b>✔</b> Watches horror for relaxation.</div>
-      <div class="sticky reveal d1"><b>✔</b> Smiles during the scary parts.</div>
-      <div class="sticky reveal d2"><b>✔</b> Probably on a first-name basis with a ghost.</div>
-      <div class="sticky reveal d3"><b>✔</b> Deeply, deeply suspicious.</div>
-      <div class="sticky reveal d4"><b>✔</b> Still somehow incredibly adorable.</div>
-    </div>
-  </section>
-
-  <!-- Developer terminal -->
-  <section class="scene" id="dev">
-    <p class="eyebrow reveal">~ /feelings — zsh</p>
-    <div class="terminal reveal d1">
-      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>feelings — bash — 80×24</span></div>
-      <div class="term-body" id="termBody"></div>
-    </div>
-  </section>
-
-  <!-- Interactive heart -->
+  <!-- Interactive heart — no words needed -->
   <section class="scene" id="heartScene">
-    <p class="eyebrow reveal">It's Been Doing This Since I Met You</p>
+    <p class="eyebrow reveal">Still Doing This</p>
     <div class="heart-stage reveal d1" id="heartStage">
       <div class="heart" id="heart"></div>
       <div class="heart-hint">click it</div>
     </div>
   </section>
 
-  <!-- Memories -->
-  <section class="scene" id="memories">
-    <p class="eyebrow reveal">The Evidence</p>
-    <div class="gallery" id="gallery"></div>
-    <p class="gallery-hint reveal">// this album keeps growing.</p>
-  </section>
-
-  <!-- Horror quiz -->
-  <section class="scene" id="quiz">
-    <p class="big reveal">One final test…</p>
-    <div class="quiz-btns reveal d1">
-      <button class="qbtn" id="q-run">Run Away</button>
-      <button class="qbtn" id="q-ghost">Become a Ghost</button>
-      <button class="qbtn" id="q-continue">Continue</button>
+  <!-- Status terminal — the archive of the yes -->
+  <section class="scene" id="dev">
+    <p class="eyebrow reveal">~ /status — zsh</p>
+    <div class="terminal reveal d1">
+      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>status — bash — 80×24</span></div>
+      <div class="term-body" id="termBody"></div>
     </div>
   </section>
 
-  <!-- Final -->
-  <section class="scene" id="final">
-    <p class="big reveal" id="finalMsg" style="max-width:22ch"></p>
-    <div class="proposal glass" id="proposal">
-      <h2>Will You<br>Be My<br>Mamaz?</h2>
-      <div class="lil">❤️</div>
-      <div class="yesno">
-        <div class="no-msg" id="noMsg"></div>
-        <button class="btn-yes" id="btnYes">YES ❤️</button>
-        <button class="btn-no" id="btnNo">NO 😈</button>
-      </div>
-    </div>
+  <!-- End of roll -->
+  <section class="scene" id="end">
+    <p class="eyebrow reveal">End of Roll — For Now</p>
+    <div class="names reveal d1" id="names">Jill</div>
+    <p class="night-sub reveal d2" id="nightSub">still the prettiest thing in the dark.</p>
+    <p class="gallery-hint reveal d3">// to be continued.</p>
   </section>
 </main>
-
-<div class="ghost" id="ghost"><span class="g">👻</span>Too late.<br>You're already haunting my heart.</div>
-
-<div id="celebrate">
-  <div class="achievement glass" id="achievement">
-    <p class="badge">✦ Achievement Unlocked ✦</p>
-    <h3>❤️ Best Mamaz Ever ❤️</h3>
-    <p>Mission Successful.</p>
-    <p>Thank you for choosing this slightly obsessed developer.</p>
-    <p>I promise to keep updating our love story…</p>
-    <p class="v">version after version. forever.</p>
-  </div>
-</div>
-
-<div id="nightsky"><div>
-  <div class="names" id="names">Jill</div>
-  <p class="night-sub" id="nightSub">still the prettiest thing in the dark.</p>
-</div></div>
 
 <script>
 /* ============================================================
@@ -687,10 +630,8 @@ function type(el,parts,done){ el.innerHTML=''; const cur=document.createElement(
 function lightning(withThunder){ const el=document.getElementById('lightning'); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); if(withThunder) Sound.thunder(); }
 
 const heroLines=[
-  "Hey, Jill.",
-  "I could've just texted you.",
-  "But you're the only ghost I want haunting me —",
-  "so I made you this instead."
+  "Jill.",
+  "Some things are better shown than said."
 ];
 // 3 seconds of black silence, then the storm
 setTimeout(()=>{ document.body.classList.add('shake'); lightning(false); setTimeout(()=>document.body.classList.remove('shake'),600); },3000);
@@ -731,20 +672,11 @@ function revealAll(){ document.querySelectorAll('.reveal').forEach(reveal); }
    TERMINAL
    ============================================================ */
 const termScript=[
-  {t:"$ ",c:"cmd"},{t:"npm run love\n"},
-  {t:"> Initializing feelings...\n",c:"dim"},
-  {t:"Loading",c:"dim"},{bar:true},
-  {t:"\nInstalling:\n",c:"dim"},
-  {t:"✔ ",c:"ok"},{t:"courage\n"},
-  {t:"✔ ",c:"ok"},{t:"butterflies\n"},
-  {t:"✔ ",c:"ok"},{t:"late-night-calls\n"},
-  {t:"✔ ",c:"ok"},{t:"missing-you\n"},
-  {t:"✔ ",c:"ok"},{t:"thinking-about-you\n\n"},
-  {t:"Compilation Failed.\n",c:"err"},
-  {t:"Reason: ",c:"dim"},{t:"Heart already belongs to her.\n",c:"err"},
-  {t:"\n$ ",c:"cmd"},{t:"./mamaz.exe\n"},
-  {t:"Running...\n",c:"dim"},
-  {t:"> ",c:"dim"},{t:"Waiting for user confirmation",c:"ok"},{t:" ▍",c:"cur"}
+  {t:"$ ",c:"cmd"},{t:"./mamaz.exe\n"},
+  {t:"status: ",c:"dim"},{t:"YES ✓\n",c:"ok"},
+  {t:"running since: ",c:"dim"},{t:"22.07.2026\n"},
+  {t:"uptime: ",c:"dim"},{bar:true},
+  {t:"\n> ",c:"dim"},{t:"no further questions",c:"ok"},{t:" ▍",c:"cur"}
 ];
 let termStarted=false;
 function watchTerminal(){ new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting&&!termStarted){ termStarted=true; runTerminal(); }}),{threshold:.4}).observe(document.getElementById('dev')); }
@@ -770,54 +702,15 @@ stage.addEventListener('click',()=>{ const c=heartCenter(); FX.heartBurst(c.x,c.
     setTimeout(()=>{ heartEl.style.transition=''; heartEl.style.transform=''; exploded=false; },900); } });
 
 /* ============================================================
-   HORROR QUIZ
+   END OF ROLL — stars, brighter moon, firefly heart, one heartbeat
    ============================================================ */
-const qrun=document.getElementById('q-run');
-function dodge(el){ const cr=el.parentElement.getBoundingClientRect(),br=el.getBoundingClientRect();
-  el.style.position='absolute'; el.style.left=Math.random()*Math.max(cr.width-br.width,10)+'px'; el.style.top=Math.random()*Math.max(cr.height-br.height,80)+'px'; }
-qrun.addEventListener('mouseenter',()=>dodge(qrun));
-qrun.addEventListener('click',e=>{ e.preventDefault(); dodge(qrun); });
-const ghost=document.getElementById('ghost');
-document.getElementById('q-ghost').addEventListener('click',()=>{ ghost.classList.add('show'); Sound.sparkle(); setTimeout(()=>ghost.classList.remove('show'),3200); });
-document.getElementById('q-continue').addEventListener('click',()=>document.getElementById('final').scrollIntoView({behavior:'smooth'}));
-
-/* ============================================================
-   FINAL
-   ============================================================ */
-let finalDone=false;
-new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ FX.setPhase('final'); document.documentElement.style.setProperty('--moon-b','.9');
-  if(!finalDone){ finalDone=true;
-    Sound.heartbeat(); setTimeout(Sound.heartbeat,1600); setTimeout(Sound.heartbeat,3200);
-    setTimeout(()=>type(document.getElementById('finalMsg'),[
-      "I've shipped worse ideas with way more confidence.",
-      "This one? No bugs. No second-guessing.",
-      "Just one question —"
-    ],()=>{ document.getElementById('proposal').classList.add('zoom'); startYesPulse(); }),500);
-  }
-}}),{threshold:.5}).observe(document.getElementById('final'));
-new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) setTimeout(()=>FX.gatherHeart(),3200); }),{threshold:.6}).observe(document.getElementById('final'));
-
-const btnNo=document.getElementById('btnNo'),noMsg=document.getElementById('noMsg');
-const noMsgs=["404 — Option Not Found.","Permission Denied.","Nice try.","System Error: that answer isn't supported.","Ghosts stole this button.","This button has commitment issues."];
-let noI=0;
-function noRun(e){ if(e) e.preventDefault(); const wrap=btnNo.closest('.yesno'),cr=wrap.getBoundingClientRect(),br=btnNo.getBoundingClientRect();
-  btnNo.style.position='absolute'; btnNo.style.left=Math.random()*(cr.width-br.width)+'px'; btnNo.style.top=(Math.random()*80-20)+'px';
-  noMsg.textContent=noMsgs[noI++%noMsgs.length]; noMsg.classList.add('show'); clearTimeout(noRun._t); noRun._t=setTimeout(()=>noMsg.classList.remove('show'),1400); }
-btnNo.addEventListener('mouseenter',noRun); btnNo.addEventListener('click',noRun); btnNo.addEventListener('touchstart',noRun,{passive:false});
-
-let yesScale=1;
-function startYesPulse(){ setInterval(()=>{ if(yesScale<1.7){ yesScale+=.06; document.getElementById('btnYes').style.transform='scale('+yesScale+')'; } },5000); }
-
-/* YES → the whole world changes */
-document.getElementById('btnYes').addEventListener('click',()=>{
-  FX.setPhase('celebrate'); Sound.swell(); document.body.classList.add('finale');
-  document.documentElement.style.setProperty('--moon-b','1.4'); document.documentElement.style.setProperty('--fog-o','.25');
+let endDone=false;
+new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ FX.setPhase('final');
+  document.documentElement.style.setProperty('--moon-b','.95');
+  document.documentElement.style.setProperty('--fog-o','.45');
   document.querySelector('#skyline .lit')?.setAttribute('opacity','.85');
-  let n=0; const d=FX.dpr(); const wave=setInterval(()=>{ FX.firework(innerWidth*(.15+Math.random()*.7)*d,innerHeight*(.1+Math.random()*.5)*d); if(++n>20) clearInterval(wave); },250);
-  const cel=document.getElementById('celebrate'); cel.classList.add('on');
-  setTimeout(()=>document.getElementById('achievement').classList.add('show'),400);
-  setTimeout(()=>document.getElementById('nightsky').classList.add('on'),7500);
-});
+  if(!endDone){ endDone=true; Sound.heartbeat(); setTimeout(()=>FX.gatherHeart(),1800); }
+}}),{threshold:.4}).observe(document.getElementById('end'));
 </script>
 </body>
 </html>
