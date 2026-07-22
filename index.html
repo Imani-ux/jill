@@ -440,7 +440,7 @@ body.finale #aurora{opacity:.9}
   <section class="scene" id="final">
     <p class="big reveal" id="finalMsg" style="max-width:22ch"></p>
     <div class="proposal glass" id="proposal">
-      <h2>Will You<br>Be My<br>Girlfriend?</h2>
+      <h2>Will You<br>Be My<br>Mamaz?</h2>
       <div class="lil">❤️</div>
       <div class="yesno">
         <div class="no-msg" id="noMsg"></div>
@@ -785,9 +785,9 @@ new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ FX.setPhase('
   if(!finalDone){ finalDone=true;
     Sound.heartbeat(); setTimeout(Sound.heartbeat,1600); setTimeout(Sound.heartbeat,3200);
     setTimeout(()=>type(document.getElementById('finalMsg'),[
-      "Every project I've built. Every bug I've fixed. Every late night spent coding.",
-      "None of them scared me as much as asking you this.",
-      "Because this is the most important question I'll ever deploy."
+      "I've shipped worse ideas with way more confidence.",
+      "This one? No bugs. No second-guessing.",
+      "Just one question —"
     ],()=>{ document.getElementById('proposal').classList.add('zoom'); startYesPulse(); }),500);
   }
 }}),{threshold:.5}).observe(document.getElementById('final'));
