@@ -232,6 +232,10 @@ body.finale #aurora{opacity:.9}
 .polaroid .cap{font-family:var(--hand);font-size:1.35rem;color:#2a2438;text-align:center;padding:.5rem 0 .7rem}
 .note{font-family:var(--hand);font-size:clamp(1.5rem,4vw,2.3rem);color:#ffcbd4;
   text-shadow:0 0 24px rgba(158,27,50,.3);max-width:15ch;line-height:1.25}
+.polaroid .photo.soon{color:#a99ac9;border:2px dashed rgba(178,141,255,.3);animation:soonpulse 3s ease-in-out infinite}
+.polaroid .photo.soon b{font-size:1.4rem;color:var(--lavender)}
+@keyframes soonpulse{0%,100%{border-color:rgba(178,141,255,.22)}50%{border-color:rgba(178,141,255,.6)}}
+.gallery-hint{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--lavender);opacity:.6;margin-top:2rem}
 
 /* horror quiz */
 .quiz-btns{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center;margin-top:2.2rem;position:relative;min-height:130px;width:100%;max-width:640px}
@@ -415,13 +419,8 @@ body.finale #aurora{opacity:.9}
   <!-- Memories -->
   <section class="scene" id="memories">
     <p class="eyebrow reveal">The Evidence</p>
-    <div class="gallery">
-      <div class="polaroid reveal"><div class="photo">📷 drop a photo<br><small>(1)</small></div><div class="cap">Still my favorite person.</div></div>
-      <div class="note reveal d1">Still worth every overthinking session.</div>
-      <div class="polaroid reveal d2"><div class="photo">📷 drop a photo<br><small>(2)</small></div><div class="cap">Still the one I text first.</div></div>
-      <div class="note reveal d3">Still my favorite notification.</div>
-      <div class="polaroid reveal d2"><div class="photo">📷 drop a photo<br><small>(3)</small></div><div class="cap">Certified haunting.</div></div>
-    </div>
+    <div class="gallery" id="gallery"></div>
+    <p class="gallery-hint reveal">// this album keeps growing.</p>
   </section>
 
   <!-- Horror quiz -->
@@ -463,8 +462,8 @@ body.finale #aurora{opacity:.9}
 </div>
 
 <div id="nightsky"><div>
-  <div class="names" id="names">Jill<span class="amp">&amp;</span>You</div>
-  <p class="night-sub">— under the same moon —</p>
+  <div class="names" id="names">Jill</div>
+  <p class="night-sub" id="nightSub">still the prettiest thing in the dark.</p>
 </div></div>
 
 <script>
@@ -472,13 +471,41 @@ body.finale #aurora{opacity:.9}
    CONFIG · change these three things and you're done
    ============================================================ */
 const CONFIG = {
-  herName: "Jill",     // her name (bottom of the finale)
-  yourName: "You",     // your name
-  photos: ["", "", ""] // optional image URLs/paths for the 3 polaroids; "" keeps placeholders
+  herName: "Jill"   // her name — glows under the moon at the very end
 };
+
+// ── Adding more photos later ──────────────────────────────
+// Just drop the next image in the /album folder named with the
+// NEXT number: album/3.jpg, album/4.png, etc. (jpg/png/webp all ok).
+// Then:  git add -A && git commit -m "new memory" && git push
+// The gallery auto-loads 1,2,3… in order and stops at the first gap.
+// ──────────────────────────────────────────────────────────
+
+/* reveal-on-scroll — shared by static sections and the live album */
+const revealIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:.2});
+const reveal = el => revealIO.observe(el);
+
+/* short lines sprinkled through the album */
+const CAPTIONS = ["Trouble looks good on you.","Certified heartstopper.","That smile is a hazard.","Prettiest haunting.","Dangerously cute.","My favorite view.","Adorable menace.","Effortless."];
+const NOTES = ["Still the best thing in every room.","Prettiest plot twist I never saw coming.","Some hauntings you never want to end.","You make the dark look good."];
+
 (function(){
-  const n=document.getElementById('names'); n.firstChild.textContent=CONFIG.herName; n.lastChild.textContent=CONFIG.yourName;
-  document.querySelectorAll('.polaroid .photo').forEach((p,i)=>{ if(CONFIG.photos[i]) p.innerHTML='<img alt="us" src="'+CONFIG.photos[i]+'">'; });
+  document.getElementById('names').textContent = CONFIG.herName;
+
+  const g = document.getElementById('gallery');
+  const exts = ['jpg','jpeg','png','webp','JPG','JPEG','PNG','WEBP'];
+  function probe(i){ return new Promise(res=>{ let e=0; (function next(){ if(e>=exts.length) return res(null);
+    const src='album/'+i+'.'+exts[e++]; const im=new Image(); im.onload=()=>res(src); im.onerror=next; im.src=src; })(); }); }
+  function polaroid(src,cap){ const d=document.createElement('div'); d.className='polaroid reveal';
+    d.innerHTML='<div class="photo"><img alt="" loading="lazy" src="'+src+'"></div><div class="cap">'+cap+'</div>'; g.appendChild(d); reveal(d); }
+  function note(txt){ const d=document.createElement('div'); d.className='note reveal'; d.textContent=txt; g.appendChild(d); reveal(d); }
+  function comingSoon(){ const d=document.createElement('div'); d.className='polaroid reveal';
+    d.innerHTML='<div class="photo soon"><b>✦</b><br>more memories<br>loading…</div><div class="cap">to be continued…</div>'; g.appendChild(d); reveal(d); }
+  (async function(){ let i=1;
+    while(i<=60){ const src=await probe(i); if(!src) break;
+      polaroid(src, CAPTIONS[(i-1)%CAPTIONS.length]); if(i%2===0) note(NOTES[((i/2)-1)%NOTES.length]); i++; }
+    comingSoon();
+  })();
 })();
 
 /* ============================================================
@@ -667,7 +694,7 @@ enterBtn.addEventListener('click',()=>{
   const intro=document.getElementById('intro'); intro.classList.add('gone');
   setTimeout(()=>{ intro.style.display='none'; document.body.classList.remove('locked');
     document.getElementById('story').classList.add('on'); FX.setPhase('story');
-    document.documentElement.style.setProperty('--moon-b','.6'); revealObserver(); watchTerminal(); },1200);
+    document.documentElement.style.setProperty('--moon-b','.6'); revealAll(); watchTerminal(); },1200);
 });
 document.getElementById('sound').addEventListener('click',function(){ this.textContent=Sound.toggle()?'🔊':'🔇'; });
 
@@ -678,9 +705,8 @@ addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth-.5); ty=(e.clientY/in
   document.querySelectorAll('.plx').forEach(l=>{ const d=+l.dataset.depth; l.style.transform=`translate(${-px*d}px,${-py*d}px)`; });
   requestAnimationFrame(pl); })();
 
-/* reveals */
-function revealObserver(){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:.2});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el)); }
+/* reveals — observe every static .reveal (album items self-register above) */
+function revealAll(){ document.querySelectorAll('.reveal').forEach(reveal); }
 
 /* ============================================================
    TERMINAL
