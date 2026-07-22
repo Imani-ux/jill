@@ -353,6 +353,9 @@ body.finale #aurora{opacity:.9}
 <script>document.querySelectorAll('.eyes').forEach(e=>e.innerHTML='<span></span><span></span>');</script>
 
 <button id="sound" title="Sound on / off" aria-label="Toggle sound">🔊</button>
+<!-- Drop a file named song.mp3 in this folder to use it as the music.
+     If it's missing, the site falls back to its built-in ambience. -->
+<audio id="song" loop preload="auto" src="song.mp3"></audio>
 
 <!-- ============================ INTRO ============================ -->
 <section id="intro">
@@ -512,18 +515,27 @@ const NOTES = ["Still the best thing in every room.","Prettiest plot twist I nev
    AUDIO — synthesized ambience, piano, thunder, heartbeat, swell
    ============================================================ */
 const Sound = (()=>{
-  let ctx,master,pad,on=true,started=false,pianoT,mode='ambient';
+  let ctx,master,pad,on=true,started=false,pianoT,mode='ambient',musicMode='synth',song;
   const minor=[220,246.94,261.63,293.66,329.63,392,440,523.25];
   const major=[261.63,329.63,392,440,523.25,659.25,783.99];
-  function init(){ if(started) return; started=true;
-    ctx=new (window.AudioContext||window.webkitAudioContext)();
-    master=ctx.createGain(); master.gain.value=on?.8:0; master.connect(ctx.destination);
+  function fade(el,to,dur){ const from=el.volume,t0=performance.now();
+    (function s(){ const k=Math.min((performance.now()-t0)/(dur*1000),1); el.volume=Math.max(0,Math.min(1,from+(to-from)*k)); if(k<1) requestAnimationFrame(s); })(); }
+  function startSynthBed(){                       // built-in ambience (fallback when there's no song.mp3)
     pad=ctx.createGain(); pad.gain.value=0;
     const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=680; lp.Q.value=6; pad.connect(lp); lp.connect(master);
     [110,110.6,164.81].forEach((f,i)=>{ const o=ctx.createOscillator(); o.type=i===2?'triangle':'sawtooth'; o.frequency.value=f;
       const g=ctx.createGain(); g.gain.value=i===2?.05:.09; o.connect(g); g.connect(pad);
       const lfo=ctx.createOscillator(); lfo.frequency.value=.05+i*.02; const lg=ctx.createGain(); lg.gain.value=110; lfo.connect(lg); lg.connect(lp.frequency); lfo.start(); o.start(); });
     pad.gain.linearRampToValueAtTime(.5,ctx.currentTime+6); piano();
+  }
+  function init(){ if(started) return; started=true;
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain(); master.gain.value=on?.8:0; master.connect(ctx.destination);
+    song=document.getElementById('song');
+    if(song && song.getAttribute('src')){        // try the real track; fall back to synth if it isn't there
+      song.volume=0;
+      song.play().then(()=>{ musicMode='song'; fade(song,.6,2.5); }).catch(()=>{ musicMode='synth'; startSynthBed(); });
+    } else { startSynthBed(); }
   }
   function tone(freq,when,dur,vel,type){ const o=ctx.createOscillator(); o.type=type||'sine';
     const o2=ctx.createOscillator(); o2.type='triangle'; o2.frequency.value=freq*2;
@@ -547,12 +559,15 @@ const Sound = (()=>{
     const o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(70,t+off); o.frequency.exponentialRampToValueAtTime(40,t+off+.18);
     const g=ctx.createGain(); g.gain.setValueAtTime(0,t+off); g.gain.linearRampToValueAtTime(i?.35:.5,t+off+.02); g.gain.exponentialRampToValueAtTime(.0001,t+off+.22);
     o.connect(g); g.connect(master); o.start(t+off); o.stop(t+off+.3); }); }
-  function swell(){ if(!started) return; mode='celebrate'; if(pad) pad.gain.linearRampToValueAtTime(.7,ctx.currentTime+2);
+  function swell(){ if(!started) return;
+    if(musicMode==='song'){ if(song) fade(song,.85,2); sparkle(); return; }   // let the real song shine on YES
+    mode='celebrate'; if(pad) pad.gain.linearRampToValueAtTime(.7,ctx.currentTime+2);
     [261.63,329.63,392,523.25].forEach((f,i)=>{ const o=ctx.createOscillator(); o.type='triangle'; o.frequency.value=f;
       const g=ctx.createGain(); g.gain.value=0; g.gain.linearRampToValueAtTime(.12,ctx.currentTime+1.4); g.gain.linearRampToValueAtTime(.06,ctx.currentTime+5);
       o.connect(g); g.connect(master); o.start(); }); piano(); sparkle(); }
   function sparkle(){ if(!started) return; for(let i=0;i<6;i++) tone(major[Math.floor(Math.random()*major.length)]*2,ctx.currentTime+i*.06,.5,.05); }
-  function toggle(){ on=!on; if(started) master.gain.linearRampToValueAtTime(on?.8:0,ctx.currentTime+.3); return on; }
+  function toggle(){ on=!on; if(started){ master.gain.linearRampToValueAtTime(on?.8:0,ctx.currentTime+.3);
+    if(song && musicMode==='song'){ on ? song.play().catch(()=>{}) : song.pause(); } } return on; }
   return {init,thunder,heartbeat,swell,sparkle,toggle};
 })();
 
@@ -668,10 +683,10 @@ function type(el,parts,done){ el.innerHTML=''; const cur=document.createElement(
 function lightning(withThunder){ const el=document.getElementById('lightning'); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); if(withThunder) Sound.thunder(); }
 
 const heroLines=[
-  "Some stories begin with sunshine…",
-  "Ours began somewhere between late-night conversations,",
-  "bad jokes,",
-  "and your slightly concerning love for horror movies."
+  "Hey, Jill.",
+  "I could've just texted you.",
+  "But you're the only ghost I want haunting me —",
+  "so I made you this instead."
 ];
 // 3 seconds of black silence, then the storm
 setTimeout(()=>{ document.body.classList.add('shake'); lightning(false); setTimeout(()=>document.body.classList.remove('shake'),600); },3000);
