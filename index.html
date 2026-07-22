@@ -407,6 +407,7 @@ body.finale #aurora{opacity:.9}
       </g>
     </svg>
     <p class="eyebrow reveal">The Evidence</p>
+    <p class="line rose reveal d1" style="margin-bottom:2rem">Even the ghosts stare.</p>
     <div class="gallery" id="gallery"></div>
     <p class="gallery-hint reveal">// this album keeps growing.</p>
     <div class="cue">scroll</div>
@@ -419,6 +420,7 @@ body.finale #aurora{opacity:.9}
       <div class="heart" id="heart"></div>
       <div class="heart-hint">click it</div>
     </div>
+    <p class="gallery-hint reveal d2">// known issue. no fix planned.</p>
   </section>
 
   <!-- Status terminal — the archive of the yes -->
@@ -460,7 +462,7 @@ const reveal = el => revealIO.observe(el);
 
 /* nickname-style captions — say it without saying it */
 const CAPTIONS = ["Heartstopper.","Showstopper.","Daydream.","Main character.","Plot twist.","Femme fatale.","Golden.","Muse.","Vision.","The moment.","Unreal.","Trouble, the cute kind."];
-const NOTES = ["Some people just glow different.","Proof the camera has favorites.","Art, honestly.","The lens never stood a chance."];
+const NOTES = ["The monsters check under their beds for her.","She walked in… the haunted house got nervous.","Scary movies wish they had this plot.","Warning: eye contact may cause heart failure.","This much pretty should be illegal somewhere.","The camera never stood a chance."];
 
 (function(){
   document.getElementById('names').textContent = CONFIG.herName;
@@ -690,7 +692,8 @@ function lightning(withThunder){ const el=document.getElementById('lightning'); 
 
 const heroLines=[
   "Jill.",
-  "Some things are better shown than said."
+  "Some things are better shown than said.",
+  "Try not to blink."
 ];
 // 3 seconds of black silence, then the storm
 setTimeout(()=>{ document.body.classList.add('shake'); lightning(false); setTimeout(()=>document.body.classList.remove('shake'),600); },3000);
@@ -734,6 +737,7 @@ const termScript=[
   {t:"$ ",c:"cmd"},{t:"./mamaz.exe\n"},
   {t:"status: ",c:"dim"},{t:"YES ✓\n",c:"ok"},
   {t:"running since: ",c:"dim"},{t:"22.07.2026\n"},
+  {t:"threat level: ",c:"dim"},{t:"stunning\n",c:"err"},
   {t:"uptime: ",c:"dim"},{bar:true},
   {t:"\n> ",c:"dim"},{t:"no further questions",c:"ok"},{t:" ▍",c:"cur"}
 ];
