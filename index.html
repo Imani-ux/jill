@@ -488,9 +488,9 @@ const CONFIG = {
 const revealIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:.2});
 const reveal = el => revealIO.observe(el);
 
-/* short lines sprinkled through the album */
-const CAPTIONS = ["Trouble looks good on you.","Certified heartstopper.","That smile is a hazard.","Prettiest haunting.","Dangerously cute.","My favorite view.","Adorable menace.","Effortless."];
-const NOTES = ["Still the best thing in every room.","Prettiest plot twist I never saw coming.","Some hauntings you never want to end.","You make the dark look good."];
+/* nickname-style captions — say it without saying it */
+const CAPTIONS = ["Heartstopper.","Showstopper.","Daydream.","Main character.","Plot twist.","Femme fatale.","Golden.","Muse."];
+const NOTES = ["Some people just glow different.","Proof the camera has favorites.","Art, honestly.","The lens never stood a chance."];
 
 (function(){
   document.getElementById('names').textContent = CONFIG.herName;
